@@ -1,0 +1,88 @@
+<html>
+<head>
+<meta http-equiv="Expires" content="-1">
+
+<script type="text/javascript" src=".\JavaScripts\d3.v3.min.js"></script>
+<script type="text/javascript">setTimeout(function(){window.location.href='index2.html'},120000);
+
+    d3.csv("dataPoints.csv", function(data){
+
+   //Create the SVG graph.
+    var svg = d3.select("#graph").append("svg").attr("width", "1800").attr("height", "600");
+
+    var dataEnter = svg.selectAll("rect").data(data).enter();
+    var graphWidth = 800;
+    var barWidth = 40;
+    var barSeparation = 30;
+    var maxData = 2;
+    var horizontalBarDistance = barWidth + barSeparation;
+    var textYOffset = 25;
+    var barXOffset = 260;
+    var barYOffset = 5;
+    var numXOffset = 230;
+    var barHeightMultiplier = graphWidth / maxData;
+    var fontSize = "30px";
+
+    var color = d3.scale.category10();
+
+
+   //Draw the bars.
+    dataEnter.append("rect")
+    .attr("fill",function(d,i){return color(i);})
+    .attr("y", function(d, i){return i * horizontalBarDistance - barYOffset;})
+    .attr("x", barXOffset)
+    .attr("height", function(d){return barWidth;}) 
+    .attr("width", function(d){return d.data * barHeightMultiplier;});
+
+
+   //Draw the text.
+    dataEnter.append("text")
+    .text(function(d){return d.Name;})
+    .attr("font-size", fontSize)
+    .attr("font-family", "sans-serif")
+    .attr("y", function(d, i){return i * horizontalBarDistance + textYOffset;})
+    .attr("x");
+
+   //Draw the numbers.
+    dataEnter.append("text")
+    .text(function(d){return d.data;})
+    .attr("font-size", fontSize)
+    .attr("font-family", "sans-serif")
+    .attr("y", function(d, i){return i * horizontalBarDistance + textYOffset;})
+    .attr("x", numXOffset);
+
+     //Draw the Target bar
+    dataEnter.append("rect")
+    .attr("fill", "red")
+    .attr("y", function(d, i){return i * horizontalBarDistance;})
+    .attr("x", barXOffset + graphWidth)
+    .attr("height", 70) 
+    .attr("width", 10);
+
+});
+
+</script>
+
+<style type="text/css">
+#title {
+    font-family:sans-serif;
+    font-size: 50px;
+    color:#000;
+    text-decoration: underline;
+    text-align: center;
+    width: 100%;
+    position:relative;
+    margin-top:20;
+}
+#graph {
+    overflow:hidden;
+    margin-top:40;
+}
+</style>
+
+</head>
+<body>
+<div id="title">Graph 1</div>
+<div id="graph"></div>
+</body>
+</html>
