@@ -1,0 +1,1 @@
+pred-dat contains Google Trends data that I used to train and test the model that I presented at the 2020 Region 4 Science Fair in March.
